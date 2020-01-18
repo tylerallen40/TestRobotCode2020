@@ -1,6 +1,7 @@
 plugins {
     id "java"
     id "edu.wpi.first.GradleRIO" version "2020.1.2"
+    id 'checkstyle'
 }
 
 sourceCompatibility = JavaVersion.VERSION_11
@@ -37,6 +38,11 @@ deploy {
     }
 }
 
+checkstyle {
+  maxWarnings = 0
+}
+
+
 // Set this to true to enable desktop support.
 def includeDesktopSupport = false
 
@@ -54,10 +60,18 @@ dependencies {
 
     testImplementation 'junit:junit:4.12'
 
+    compile group: 'org.ejml', name: 'ejml-all', version: '0.38'
+
     // Enable simulation gui support. Must check the box in vscode to enable support
     // upon debugging
     simulation wpi.deps.sim.gui(wpi.platforms.desktop, false)
 }
+
+repositories {
+  mavenLocal()
+  mavenCentral()
+}
+
 
 // Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')
 // in order to make them all available at runtime. Also adding the manifest so WPILib
